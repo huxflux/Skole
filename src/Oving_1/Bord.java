@@ -49,7 +49,6 @@ public class Bord {
             if (bordListe[i] != null) {
                 if (bordListe[i].equals(navn)) {
                     bordNummer[u] = i;
-                    System.out.println(i);
                     u++;
 
                 }

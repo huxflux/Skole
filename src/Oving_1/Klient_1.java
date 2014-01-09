@@ -1,27 +1,55 @@
 package Oving_1;
 
+import static javax.swing.JOptionPane.*;
+
 public class Klient_1 {
     public static void main(String[] args) {
-        Restaurant restaurant = new Restaurant("Monolith Burgers", 1989);
-        System.out.println(restaurant.toString());
+        String[] testOption = {"Navn", "Etableringsaar", "Reserver bord", "Frigi bord", "Hvilke bord har", "Vis info"};
+        String navnRestaurant = "";
+        String navnPerson = "";
+        String tempString = "";
+        int antallBord = 0;
+        int etableringsaar = 0;
+        int elFinito = 0;
 
-        restaurant.setNavnRestaurant("Phleebut");
-        restaurant.reserverBord("Roger Wilco", 3);
-        restaurant.reserverBord("Vohaul", 1);
-        restaurant.reserverBord("Two guys from Andromeda", 1);
-        restaurant.reserverBord("Larry Laffer", 2);
-        System.out.println(restaurant.toString());
+        navnRestaurant = showInputDialog("Navn paa restaurant");
+        etableringsaar = Integer.parseInt(showInputDialog("Etableringsaar"));
 
-        restaurant.frigiBordNavn("Roger Wilco");
-        System.out.println(restaurant.toString());
+        Restaurant restaurant = new Restaurant(navnRestaurant, etableringsaar);
 
-      //  String navnPerson = "Larry Laffer";
-      //  int[] temp = restaurant.hvilkeBordNavn(navnPerson);
-      //  System.out.print(navnPerson + " Har reservert bord: ");
-      //  for (int i = 0; i < temp.length; i++) {
-      //      System.out.print(i + ", ");
-      // }
-        // faaeeen
+        do {
+            switch (showOptionDialog(null, "", "Restaurant", 0, PLAIN_MESSAGE, null, testOption, testOption[0])) {
+                case 0:
+                    restaurant.setNavnRestaurant(showInputDialog("Navn paa Restaurant"));
+                    break;
+                case 1:
+                    restaurant.setEtableringsAar(Integer.parseInt(showInputDialog("Velg etableringsaar")));
+                    break;
+                case 2:
+                    navnPerson = showInputDialog("Navn paa person");
+                    antallBord = Integer.parseInt(showInputDialog("Antall bord"));
+                    restaurant.reserverBord(navnPerson, antallBord);
+                    break;
+                case 3:
+                    restaurant.frigiBordNavn(showInputDialog("Navn paa person"));
+                    break;
+                case 4:
+                    navnPerson = showInputDialog("Navn paa person");
+                    int[] temp = restaurant.hvilkeBordNavn(navnPerson);
+                    tempString = (navnPerson + " har reservert bord: ");
+                    for (int i = 0; i < temp.length; i++) {
+                        if (temp[i] != 0) {
+                            tempString += (temp[i] + " ");
+                        }
+                    }
+                    showMessageDialog(null, tempString);
+                    break;
+                case 5:
+                    showMessageDialog(null, restaurant.toString());
+                    break;
+                default:
+                    elFinito = -1;
+            }
+        } while (elFinito != -1);
     }
-
 }

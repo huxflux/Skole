@@ -1,7 +1,7 @@
 package Oving_1;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+//import java.util.Calendar;
+//import java.util.GregorianCalendar;
 
 public class Restaurant {
     private String navnRestaurant = "";
@@ -25,9 +25,13 @@ public class Restaurant {
         return etableringsAar;
     }
 
+    public void setEtableringsAar(int etableringsAar) {
+        this.etableringsAar = etableringsAar;
+    }
+
     public int getAlder() {
-        java.util.GregorianCalendar dagensDato = new GregorianCalendar();
-        return dagensDato.get(Calendar.YEAR) - etableringsAar;
+    java.util.GregorianCalendar dagensDato = new java.util.GregorianCalendar();
+        return dagensDato.get(java.util.Calendar.YEAR) - etableringsAar;
     }
 
     public int getAntallLedigeBord() {
