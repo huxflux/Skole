@@ -1,8 +1,5 @@
 package Oving_1;
 
-//import java.util.Calendar;
-//import java.util.GregorianCalendar;
-
 public class Restaurant {
     private String navnRestaurant = "";
     private int etableringsAar = 0;
