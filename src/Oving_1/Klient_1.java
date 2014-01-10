@@ -10,12 +10,16 @@ public class Klient_1 {
         String tempString = "";
         int antallBord = 0;
         int etableringsaar = 0;
-        int elFinito = 0;
+        int antBord = 0;
+        boolean elFinito = true;
 
         navnRestaurant = showInputDialog("Navn paa restaurant");
         etableringsaar = Integer.parseInt(showInputDialog("Etableringsaar"));
+        antBord = Integer.parseInt(showInputDialog("Antall bord"));
 
-        Restaurant restaurant = new Restaurant(navnRestaurant, etableringsaar);
+        System.out.println(etableringsaar);
+
+        Restaurant restaurant = new Restaurant(navnRestaurant, etableringsaar, antBord);
 
         do {
             switch (showOptionDialog(null, "", "Restaurant", 0, PLAIN_MESSAGE, null, testOption, testOption[0])) {
@@ -48,8 +52,8 @@ public class Klient_1 {
                     showMessageDialog(null, restaurant.toString());
                     break;
                 default:
-                    elFinito = -1;
+                    elFinito = false;
             }
-        } while (elFinito != -1);
+        } while (elFinito);
     }
 }

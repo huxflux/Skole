@@ -1,8 +1,14 @@
 package Oving_1;
 
 public class Bord {
-    private int antallBord = 10;
-    private String[] bordListe = new String[antallBord];
+//    private int antallBord = 10;
+//    private String[] bordListe = new String[antallBord];
+
+    private String[] bordListe = null;
+
+    public Bord(int antallBord) {
+        bordListe = new String[antallBord];
+    }
 
     public int getAntallLedigeBord() {
         int antallBord = 0;
@@ -43,7 +49,8 @@ public class Bord {
     }
 
     public int[] bordNavn(String navn) {
-        int[] bordNummer = new int[antallBord];
+//        int[] bordNummer = new int[antallBord];
+        int[] bordNummer = new int[bordListe.length];
         int u = 0;
         for (int i = 0; i < bordNummer.length; i++) {
             if (bordListe[i] != null) {

@@ -3,11 +3,12 @@ package Oving_1;
 public class Restaurant {
     private String navnRestaurant = "";
     private int etableringsAar = 0;
-    private Bord bordRestaurant = new Bord();
-
-    public Restaurant(String navnRestaurant, int etableringsAar) {
+//    private Bord bordRestaurant = new Bord();
+    Bord bordRestaurant = null;
+    public Restaurant(String navnRestaurant, int etableringsAar, int antallBord) {
         this.navnRestaurant = navnRestaurant;
         this.etableringsAar = etableringsAar;
+        this.bordRestaurant = new Bord(antallBord);
     }
 
     public String getNavnRestaurant() {
@@ -48,6 +49,7 @@ public class Restaurant {
     public void frigiBordNavn(String navn) {
         int[] bordNummerListe = hvilkeBordNavn(navn);
         for (int i = 0; i < bordNummerListe.length; i++) {
+            System.out.println("bordnummerliste: " + bordNummerListe[i]);
             bordRestaurant.frigiBord(bordNummerListe[i]);
         }
     }
