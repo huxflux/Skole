@@ -3,22 +3,18 @@ package Oving_2;
 import java.util.ArrayList;
 
 public class OppgaveOversikt {
-    //    private Student[] studenter = new Student[5];
     ArrayList<Student> studenter = new ArrayList<Student>();
-    private int antStud = 0;
 
     public boolean regNyStudent(String navn) {
         if (finnesNavn(navn)) {
             return false;
         }
-//        studenter[antStud] = new Student(navn, 0);
         studenter.add(new Student(navn, 0));
-        antStud++;
         return true;
     }
 
     public int finnAntStud() {
-        return antStud;
+        return studenter.size();
     }
 
     public int finnAntOppgaver(String navn) {
@@ -26,7 +22,7 @@ public class OppgaveOversikt {
             return -1;
         }
         String[] alleNavn = finnAlleNavn();
-        for (int i = 0; i < antStud; i++) {
+        for (int i = 0; i < studenter.size(); i++) {
             if (studenter.get(i).getNavn().equals(alleNavn[i])) {
                 return studenter.get(i).getAntOppg();
             }
@@ -39,7 +35,7 @@ public class OppgaveOversikt {
             return false;
         }
         String[] alleNavn = finnAlleNavn();
-        for (int i = 0; i < antStud; i++) {
+        for (int i = 0; i < studenter.size(); i++) {
             if (studenter.get(i).getNavn().equals(alleNavn[i])) {
                 studenter.get(i).setAntOppg(studenter.get(i).getAntOppg() + økning);
                 return true;
@@ -49,8 +45,8 @@ public class OppgaveOversikt {
     }
 
     public String[] finnAlleNavn() {
-        String[] alleNavn = new String[antStud];
-        for (int i = 0; i < antStud; i++) {
+        String[] alleNavn = new String[studenter.size()];
+        for (int i = 0; i < studenter.size(); i++) {
             alleNavn[i] = studenter.get(i).getNavn();
         }
         return alleNavn;
@@ -59,16 +55,16 @@ public class OppgaveOversikt {
     public String toString() {
         String stringArray = "";
         String[] alleNavn = finnAlleNavn();
-        for (int i = 0; i < antStud; i++) {
+        for (int i = 0; i < studenter.size(); i++) {
             stringArray += "Navn: " + alleNavn[i] + ", Oppg. løst: " + studenter.get(i).getAntOppg() + "\n";
         }
-        stringArray += "antStud: " + antStud;
+        stringArray += "antStud: " + studenter.size();
         return stringArray;
     }
 
     public boolean finnesNavn(String navn) {
         String[] alleNavn = finnAlleNavn();
-        for (int i = 0; i < antStud; i++) {
+        for (int i = 0; i < studenter.size(); i++) {
             if (alleNavn[i].equals(navn)) {
                 return true;
             }
