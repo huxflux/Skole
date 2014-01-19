@@ -20,7 +20,10 @@ public class Rom {
                 reservasjon.add(new Reservasjon(tidFra, tidTil, new Kunde(navnKunde, tlfKunde)));
                 return true;
                 }
-            }
+            } else {
+            return false;
+        }
+
         for (int i = 0; i < reservasjon.size(); i++) {
             if (reservasjon.get(i).overlapp(tidFra, tidTil)) {
                 return false;

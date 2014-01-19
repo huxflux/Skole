@@ -24,7 +24,7 @@ public class Klient_x {
                         showMessageDialog(null, "Rom registrert");
                         break;
                     }
-                    showMessageDialog(null, "Rom finnes fra f0r av");
+                    showMessageDialog(null, "Rommet finnes fra f0r av");
                     break;
                 case 1:
                     tidspunktFra = Long.parseLong(showInputDialog(null, "Tidspunkt fra (YYYYMMDDHHMM"));
