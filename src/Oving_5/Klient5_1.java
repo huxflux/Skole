@@ -22,7 +22,7 @@ class LagVindu extends JFrame {
         add(serifButton);
         JButton monoButton = new JButton("Monospaced");
         add(monoButton);
-        JButton dialogButton = new JButton("Dialog");
+        JButton dialogButton = new JButton("Verdana");
         add(dialogButton);
 
         ButtonListener buttonListener = new ButtonListener();
@@ -50,7 +50,7 @@ class LagVindu extends JFrame {
                 Font nyFont = new Font("Monospaced", Font.BOLD, 12);
                 vinduTekst.setFont(nyFont);
             } else {
-                Font nyFont = new Font("Dialog", Font.BOLD, 12);
+                Font nyFont = new Font("Verdana", Font.BOLD, 12);
                 vinduTekst.setFont(nyFont);
             }
         }

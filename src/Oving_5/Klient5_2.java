@@ -2,13 +2,12 @@ package Oving_5;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Arc2D;
 import javax.swing.*;
 
 class LagVindu2 extends JFrame {
 
     private JTextField belop = new JTextField(15);
-    private JLabel resultat = new JLabel("Resultatet av omregningen kommer her", JLabel.CENTER);
+    private JLabel resultat = new JLabel("Resultatet av omregningen kommer her");
 
     public LagVindu2(String tittel) {
         setTitle(tittel);
@@ -19,17 +18,17 @@ class LagVindu2 extends JFrame {
      * horisontal avstand mellom rutene, vertikal avstand mellom rutene
      * de to siste i antall piksler
      */
-        setLayout(new GridLayout(3, 1, 5, 5));
+        setLayout(new GridLayout(3, 2, 5, 5));
         JLabel belopTekst = new JLabel("Belop:", JLabel.RIGHT);
         add(belopTekst);
         add(belop);
 //        JLabel resultat = new JLabel("Resultatet av omregningen kommer her", JLabel.CENTER);
         add(resultat);
+        add(new JLabel(""));
         JButton svenskKnapp = new JButton("Til svensk.");
         add(svenskKnapp);
         JButton norskKnapp = new JButton("Til norsk.");
         add(norskKnapp);
-        pack();
 
         ButtonListener buttonListener = new ButtonListener();
         svenskKnapp.addActionListener(buttonListener);
