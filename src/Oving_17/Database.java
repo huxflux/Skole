@@ -1,6 +1,7 @@
 package Oving_17;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
     private Connection forbindelse;
@@ -21,21 +22,21 @@ public class Database {
             forbindelse.close();
         } catch (SQLException e) {
             System.out.println("Fikk ikke lukket Database");
-        }
-    }
+}
+}
 
     /* Denne metoden skal registrere en ny tittel og samtidig eksemplar nummer 1 av denne tittelen */
     public boolean regNyBok(Bok nyBok) {
         /* insert into boktittel(isbn, forfatter, tittel) values(<isbn>, <forfatter>, <tittel>)
         insert into eksemplar(isbn, eks_nr) values (<isbn>, 1); */
 
-        int eks_nr = 0; /* wtf, hver bok skal ha eget eks_nr */
+        int eks_nr = 1; /* wtf, hver bok skal ha eget eks_nr */
 
         /* maa sjekke om ISBN finnes fra f0r av */
 
         if (!sjekkIsbn(nyBok.getIsbn())) {
             String sqlsetn = ("insert into boktittel(isbn, forfatter, tittel) values(" +"'" + nyBok.getIsbn() + "', '" + nyBok.getForfatter() + "', '" + nyBok.getTittel() + "')");
-            String sqlsetn2 = ("insert into eksemplar(" + nyBok.getIsbn() + ", " + eks_nr + ") values (<isbn>, 1)");
+            String sqlsetn2 = ("insert into eksemplar(" + nyBok.getIsbn() + ", " + eks_nr + ") values (<" + nyBok.getIsbn() + ">, 1)");
             try {
                 Statement setning = forbindelse.createStatement();
                 setning.executeUpdate(sqlsetn);
@@ -69,6 +70,30 @@ public class Database {
         Finner ikke ISBN: return false;
      */
     public boolean sjekkIsbn(String isbn) {
+        ArrayList<String> isbnListe = new ArrayList<String>();
+        String sqlsetning = "select isbn from boktittel";
+        System.out.println(sqlsetning);
+
+
+        String isbnStuff = null;
+        ResultSet res = null;
+        Statement setning = null;
+        try {
+            setning = forbindelse.createStatement();
+            res = setning.executeQuery(sqlsetning);
+            while (res.next()) {
+                isbnStuff = res.getString("isbn");
+                if (isbnStuff.compareTo(isbn) == 0) {
+                    System.out.println("deinnj finnes");
+                    return true;
+                }
+                System.out.println(isbnStuff);
+//                isbnListe.add(isbnStuff);
+            }
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Noget gikk til helvett med ISBN");
+        }
         return false;
     }
 }
