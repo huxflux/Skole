@@ -6,13 +6,12 @@ public class TestKlient {
         String dbNavn = "jdbc:derby://localhost:1527/Oving_db;user=db;password=db";
 
         Bok bok1 = new Bok("3413", "Ich bin eine berlinerbolle", "Djon Djincho");
-        Bok bok2 = new Bok("666", "HEIL HITLAHHHH", "J0rgen Hitler");
 
         System.out.println("sk");
         Database database = new Database(dbDriver, dbNavn);
         database.regNyBok(bok1);
-//        database.lukkForbindelse();
-//        database.regNyBok(bok2);
+        database.regNyttEksemplar(bok1.getIsbn());
+        database.lånUtEksemplar("3413", "Gong Gongongo", 2);
         database.lukkForbindelse();
     }
 }

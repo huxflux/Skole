@@ -36,13 +36,21 @@ public class Database {
 
         if (!sjekkIsbn(nyBok.getIsbn())) {
             String sqlsetn = ("insert into boktittel(isbn, forfatter, tittel) values(" +"'" + nyBok.getIsbn() + "', '" + nyBok.getForfatter() + "', '" + nyBok.getTittel() + "')");
-            String sqlsetn2 = ("insert into eksemplar(" + nyBok.getIsbn() + ", " + eks_nr + ") values (" + nyBok.getIsbn() + ", 1)");
+            String sqlsetn2 = ("insert into eksemplar(isbn, eks_nr) values ('" + nyBok.getIsbn() + "', 1)");
             try {
                 Statement setning = forbindelse.createStatement();
+                forbindelse.setAutoCommit(false);
                 setning.executeUpdate(sqlsetn);
                 setning.executeUpdate(sqlsetn2);
+                forbindelse.commit();
+                forbindelse.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
+                try {
+                    forbindelse.rollback();
+                } catch (SQLException f) {
+                    e.printStackTrace();
+                }
                 System.out.println("Feil i regNyBok");
             }
             return true; /* Ny bok registrert */
@@ -54,16 +62,18 @@ public class Database {
     /* Denne metoden skal registrere et nytt eksemplar av en tittel som allerede skal være registrert i databasen. */
     public int regNyttEksemplar(String isbn) {
         /* insert into eksemplar(isbn, eks_nr) values (<isbn>, <eks_nr>); */
-        int eks_nr = 0;
-        String ordneMaksEksNr = "select MAX(eks_nr) as neste_eks_nr from eksempel where isbn = " + isbn + ";";
-        String maksEksNr = "select neste_eks_nr from eksempel";
+        ResultSet res = null;
+
+        String ordneMaksEksNr = "select MAX(eks_nr) as neste_eks_nr from eksemplar where isbn = '" + isbn + "'";
 
 
         try {
             Statement setning = forbindelse.createStatement();
-            setning.executeUpdate(ordneMaksEksNr); // finn maks eks_nr for gitt isbn
-            eks_nr = setning.executeUpdate(maksEksNr); // legg maks eks_nr i
-            String sqlsetn = ("insert into eksemplar(" + isbn + ", " + ") values (" + isbn + ", " + eks_nr + ";");
+            res = setning.executeQuery(ordneMaksEksNr); // finn maks eks_nr for gitt isbn
+            //int eks_nr = setning.executeQuery(maksEksNr); // legg maks eks_nr i
+            res.next();
+            int maks = res.getInt("neste_eks_nr") + 1;
+            String sqlsetn = ("insert into eksemplar(isbn, eks_nr) values ('" + isbn + "', " + maks + ")");
             setning.executeUpdate(sqlsetn);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,6 +85,14 @@ public class Database {
 
     /* Denne metoden skal registrere at ei bok er utlånt. Kolonnen utlånt for det aktuelle eksemplaret skal settes lik navnet til låneren. */
     public boolean lånUtEksemplar(String isbn, String navn, int eksNr) {
+        String sqlsetn = "update eksemplar set laant_av = " + "'" + navn + "'" + " where isbn = " + "'"+ isbn +"'" + " and eks_nr = " + eksNr;
+        try {
+            Statement setning = forbindelse.createStatement();
+            setning.executeUpdate(sqlsetn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Det er FEL i laantUtEksemplar");
+        }
         return false;
     }
 
@@ -83,7 +101,6 @@ public class Database {
         Finner ikke ISBN: return false;
      */
     public boolean sjekkIsbn(String isbn) {
-        ArrayList<String> isbnListe = new ArrayList<String>();
         String sqlsetning = "select isbn from boktittel";
         System.out.println(sqlsetning);
 
@@ -97,7 +114,7 @@ public class Database {
             while (res.next()) {
                 isbnStuff = res.getString("isbn");
                 if (isbnStuff.compareTo(isbn) == 0) {
-                    System.out.println("deinnj finnes");
+                    System.out.println("Bokji finnast fra für af");
                     return true;
                 }
                 System.out.println(isbnStuff);
