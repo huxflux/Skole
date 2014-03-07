@@ -36,11 +36,11 @@ public class Database {
 
         if (!sjekkIsbn(nyBok.getIsbn())) {
             String sqlsetn = ("insert into boktittel(isbn, forfatter, tittel) values(" +"'" + nyBok.getIsbn() + "', '" + nyBok.getForfatter() + "', '" + nyBok.getTittel() + "')");
-            String sqlsetn2 = ("insert into eksemplar(" + nyBok.getIsbn() + ", " + eks_nr + ") values (<" + nyBok.getIsbn() + ">, 1)");
+            String sqlsetn2 = ("insert into eksemplar(" + nyBok.getIsbn() + ", " + eks_nr + ") values (" + nyBok.getIsbn() + ", 1)");
             try {
                 Statement setning = forbindelse.createStatement();
                 setning.executeUpdate(sqlsetn);
-//                setning.executeUpdate(sqlsetn2);
+                setning.executeUpdate(sqlsetn2);
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Feil i regNyBok");
@@ -54,8 +54,21 @@ public class Database {
     /* Denne metoden skal registrere et nytt eksemplar av en tittel som allerede skal være registrert i databasen. */
     public int regNyttEksemplar(String isbn) {
         /* insert into eksemplar(isbn, eks_nr) values (<isbn>, <eks_nr>); */
-        int eks_nr = 0; /* what to doooooo */
-        String sqlsetn = ("insert into eksemplar(" + isbn + ", " + eks_nr + ") values (<isbn>, <eks_nr>");
+        int eks_nr = 0;
+        String ordneMaksEksNr = "select MAX(eks_nr) as neste_eks_nr from eksempel where isbn = " + isbn + ";";
+        String maksEksNr = "select neste_eks_nr from eksempel";
+
+
+        try {
+            Statement setning = forbindelse.createStatement();
+            setning.executeUpdate(ordneMaksEksNr); // finn maks eks_nr for gitt isbn
+            eks_nr = setning.executeUpdate(maksEksNr); // legg maks eks_nr i
+            String sqlsetn = ("insert into eksemplar(" + isbn + ", " + ") values (" + isbn + ", " + eks_nr + ";");
+            setning.executeUpdate(sqlsetn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Feil i regNyttEksemplar");
+        }
 
         return 0;
     }

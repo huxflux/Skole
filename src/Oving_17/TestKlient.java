@@ -12,7 +12,7 @@ public class TestKlient {
         Database database = new Database(dbDriver, dbNavn);
         database.regNyBok(bok1);
 //        database.lukkForbindelse();
-        database.regNyBok(bok2);
+//        database.regNyBok(bok2);
         database.lukkForbindelse();
     }
 }
